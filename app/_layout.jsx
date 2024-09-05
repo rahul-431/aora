@@ -3,7 +3,7 @@ import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 
 SplashScreen.preventAutoHideAsync();
-export default function App() {
+export default function RootLayout() {
   const [fontsLoaded, error] = useFonts({
     "Poppins-Black": require("../assets/fonts/Poppins-Black.ttf"),
     "Poppins-Bold": require("../assets/fonts/Poppins-Bold.ttf"),
@@ -29,6 +29,24 @@ export default function App() {
           headerShown: false,
         }}
       />
+      <Stack.Screen
+        name="(auth)"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="(tabs)"
+        options={{
+          headerShown: false,
+        }}
+      />
+      {/* <Stack.Screen
+        name="/search/[query]"
+        options={{
+          headerShown: false,
+        }}
+      /> */}
     </Stack>
   );
 }
