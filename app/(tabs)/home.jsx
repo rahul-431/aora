@@ -14,12 +14,13 @@ import Trending from "../../components/Trending";
 import EmptyState from "../../components/EmptyState";
 import { StatusBar } from "expo-status-bar";
 import { useAppwrite } from "../../lib/useAppwrite";
-import { getAllPosts } from "../../lib/appwrite";
+import { getAllPosts, getLatestPosts } from "../../lib/appwrite";
 import VideoCard from "../../components/VideoCard";
 const Home = () => {
   const { data: posts, refetch } = useAppwrite(getAllPosts);
+  const { data: latestPosts } = useAppwrite(getLatestPosts);
   const [refreshing, setRefreshing] = useState(false);
-  const onRefresh = async () => {
+  const refresh = async () => {
     setRefreshing(true);
     await refetch();
     setRefreshing(false);
@@ -55,9 +56,7 @@ const Home = () => {
                 <Text className="text-gray-100 text-lg font-pregular mb-3">
                   Latest Videos
                 </Text>
-                <Trending
-                  posts={[{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }] ?? []}
-                />
+                <Trending posts={latestPosts ?? []} />
               </View>
             </View>
           )}
@@ -67,7 +66,9 @@ const Home = () => {
               subtitle="Be the first one to upload a video"
             />
           )}
-          refreshControl={<RefreshControl />}
+          refreshControl={
+            <RefreshControl onRefresh={refresh} refreshing={refreshing} />
+          }
         />
       </SafeAreaView>
       <StatusBar backgroundColor="#161622" style="light" />
